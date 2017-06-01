@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<forms>
+
+    <!--
+        note:
+            this is file is auto gen by wint,
+            You can rename the file such as ${name}.xml and add to form.xml with node   <resource file="forms/${name}.xml" />
+    -->
+
+    <form name="$!{name}.base">
+
+        #foreach($field in $fields)
+<field name="$field.name">
+            <validator type="required" message="${field.name} can not be empty!"></validator>
+#if("${field.type}" == "string")
+            <validator type="${field.type}" message="${field.name}'s length must be between ${min} and ${max}">
+                <param name="min" value="0" />
+                <param name="max" value="100" />
+            </validator>
+#else
+            <validator type="${field.type}" message="${field.name} must be a ${field.type}">
+            </validator>
+#end
+        </field>
+        #end
+
+    </form>
+
+    <form name="$!{name}.create" extends="$!{name}.base">
+
+    </form>
+
+    <form name="$!{name}.edit" extends="$!{name}.base">
+        <field name="${idName}">
+            <validator type="required" message="${idName} can not be empty!"></validator>
+        </field>
+    </form>
+
+    <!--
+        multiple value support attribute:
+
+        multipleValue="true"
+        multipleValueSeparator=","
+        multipleValueType="string"
+
+        embed validators are:
+
+            <validator type="required" message="your message"></validator>
+
+            <validator type="string" message="your message">
+                <param name="min" value="optional min value" />
+                <param name="max" value="optional max value" />
+            </validator>
+
+            <validator type="int" message="your message">
+                <param name="min" value="optional min value" />
+                <param name="max" value="optional max value" />
+            </validator>
+
+            <validator type="long" message="your message">
+                <param name="min" value="optional min value" />
+                <param name="max" value="optional max value" />
+            </validator>
+
+            <validator type="number" message="your message">
+                <param name="min" value="optional min value" />
+                <param name="max" value="optional max value" />
+            </validator>
+
+            <validator type="email" message="your message"></validator>
+
+            <validator type="regex" message="your message">
+                <param name="regex" value="regex expression" />
+                <param name="flag" value="optional flag value" />
+            </validator>
+
+            <validator type="date" message="your message">
+                <param name="formats" value="optional multi accept date formate: yyyy-MM-dd HH:mm:ss,yyyy-MM-dd" />
+                <param name="min" value="optional min date formate: yyyy-MM-dd HH:mm:ss,yyyy-MM-dd" />
+                <param name="max" value="optional max date formate: yyyy-MM-dd HH:mm:ss,yyyy-MM-dd" />
+            </validator>
+
+            <validator type="enums" message="your message">
+                <param name="values" value="your enum chars such as: 123,44,555" />
+                or
+                <param name="target" value="com.yourprojectpackage.YourEnumName#yourValueField"></param>
+            </validator>
+
+            <validator type="phone" message="your message"></validator>
+
+            <validator type="count" message="your message"s>
+                <param name="min" value="optional min count of selected values"></param>
+                <param name="max" value="optional max count of selected values"></param>
+        	</validator>
+
+            <validator type="excludeChars" message="your message">
+                <param name="chars" value="the chars can be not contains, such as: *%&#@" />
+            </validator>
+
+        Or you can define your Owner Validator extends from AbstractValidator
+    -->
+</forms>

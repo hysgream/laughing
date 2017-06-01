@@ -1,0 +1,90 @@
+package ${thisPackage};
+
+import java.sql.SQLException;
+import java.util.List;
+import java.util.ArrayList;
+import java.util.Map;
+
+import org.springframework.orm.ibatis.SqlMapClientCallback;
+import com.ibatis.sqlmap.client.SqlMapExecutor;
+import ${daoFullClassName};
+import ${doFullClassName};
+import com.laughing.dal.ibatis.ReadWriteSqlMapClientDaoSupport;
+import com.laughing.help.biz.query.BaseQuery;
+import com.laughing.lang.utils.CollectionUtil;
+import com.laughing.lang.utils.MapUtil;
+/**
+* this file is auto generate.
+*/
+public class ${className} extends ReadWriteSqlMapClientDaoSupport implements ${daoClassName} {
+
+
+    @Override
+	public ${idType} create(${domainName} ${paramName}) {
+		return (${idTypeWrapper})this.getSqlMapClientTemplate().insert("${namespace}.create", ${paramName});
+	}
+
+    @Override
+    public int batchCreate(final List<${domainName}> ${paramName}List) {
+        if (CollectionUtil.isEmpty(${paramName}List)) {
+            return 0;
+        }
+        return (Integer)this.getSqlMapClientTemplate().execute(new SqlMapClientCallback(){
+            @Override
+            public Object doInSqlMapClient(SqlMapExecutor executor) throws SQLException {
+                executor.startBatch();
+                for (${domainName} ${paramName} : ${paramName}List) {
+                    executor.insert("${namespace}.create", ${paramName});
+                }
+                return executor.executeBatch();
+            }
+        });
+    }
+
+    @Override
+	public int delete(${idType} id) {
+		return this.getSqlMapClientTemplate().update("${namespace}.delete", id);
+	}
+
+    @Override
+    public int deleteByIds(List<${idTypeWrapper}> ids) {
+        if (CollectionUtil.isEmpty(ids)) {
+            return 0;
+        }
+        return this.getSqlMapClientTemplate().update("${namespace}.deleteByIds", ids);
+    }
+
+    @Override
+	public int update(${domainName} ${paramName}) {
+		return this.getSqlMapClientTemplate().update("${namespace}.update", ${paramName});
+	}
+
+    @Override
+	public ${domainName} queryById(${idType} id) {
+	    return (${domainName})this.getSqlMapClientTemplate().queryForObject("${namespace}.queryById", id);
+	}
+
+    @Override
+    public Map<${idTypeWrapper}, ${domainName}> queryByIds(List<${idTypeWrapper}> ids) {
+        if (CollectionUtil.isEmpty(ids)) {
+            return MapUtil.newHashMap();
+        }
+        List<${domainName}> resultList = (List<${domainName}>) this.getSqlMapClientTemplate().queryForList("${namespace}.queryByIds", ids);
+        Map<${idTypeWrapper}, ${domainName}> ret = MapUtil.newHashMap();
+        for (${domainName} ${paramName} : resultList) {
+            ret.put(${paramName}.getId(), ${paramName});
+        }
+        return ret;
+    }
+
+    @Override
+    public List<${domainName}> queryForPage(BaseQuery query) {
+        long count = (Long)this.getSqlMapClientTemplate().queryForObject("${namespace}.queryForPageCount", query);
+        if (count == 0) {
+            return new ArrayList<${domainName}>(0);
+        }
+        query.setTotalResultCount(count);
+        return (List<${domainName}>)this.getSqlMapClientTemplate().queryForList("${namespace}.queryForPage", query);
+    }
+
+}

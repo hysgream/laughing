@@ -1,0 +1,26 @@
+${formCreateDefine}
+<h3>create ${alias}</h3>
+
+<ol class="breadcrumb">
+    <li><a href="#">Home</a></li>
+    <li><a href="$listPageAction">List</a></li>
+    <li class="active">create $alias</li>
+</ol>
+
+<form action="$doCreateAction" method="post" role="form">
+    $securityUtil.tokenHtml
+    #foreach($field in $fields)
+    <div class="form-group row">
+        <label for="${field.name}-id" class="col-sm-1 control-label">
+            ${field.name}
+        </label>
+        <div class="col-xs-4">
+            <input type="text" class="form-control" id="${field.name}-id" name="$form.${field.name}.name" value="$field.fieldValue"/>
+        </div>
+    </div>
+    $field.fieldMessage
+    #end
+
+    <button type="submit" class="btn btn-primary">Create!</button>
+
+</form>

@@ -1,0 +1,36 @@
+<h3>$alias list</h3>
+
+
+<ol class="breadcrumb">
+    <li><a href="#">Home</a></li>
+    <li class="active">List</li>
+</ol>
+
+<table class="table">
+    <tr>
+        #foreach($field in $fields)
+<th>$field.name</th>
+        #end
+<th>
+            operations
+        </th>
+    </tr>
+    $foreachStart
+        <tr>
+            #foreach($field in $fields)
+<td>$${alias}.${field.name}</td>
+            #end
+<td>
+                <a href="$editPageAction">edit...</a>
+                <a href="$detailPageAction">view detail</a>
+                <a href="$deleteDoAction" onclick="return confirm('It will deleting, Are you sure?')">delete</a>
+            </td>
+        </tr>
+    $end
+</table>
+
+$paginationWidget
+
+<div>
+    <a href="$createPageAction" class="btn" role="button">create...</a>
+</div>

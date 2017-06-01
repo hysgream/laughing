@@ -1,0 +1,28 @@
+package ${thisPackage};
+
+import java.util.List;
+import java.util.Map;
+import ${doFullClassName};
+import com.laughing.help.biz.query.BaseQuery;
+
+/**
+* this file is auto generate.
+*/
+public interface ${className} {
+
+	${idType} create(${domainName} ${paramName});
+
+    int batchCreate(List<${domainName}> ${paramName}List);
+
+	int delete(${idType} id);
+
+    int deleteByIds(List<${idTypeWrapper}> ids);
+
+    int update(${domainName} ${paramName});
+
+	${domainName} queryById(${idType} id);
+
+    Map<${idTypeWrapper}, ${domainName}> queryByIds(List<${idTypeWrapper}> ids);
+
+    List<${domainName}> queryForPage(BaseQuery query);
+}
