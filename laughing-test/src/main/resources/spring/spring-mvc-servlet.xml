@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns:mvc="http://www.springframework.org/schema/mvc"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns="http://www.springframework.org/schema/beans"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
+        http://www.springframework.org/schema/mvc   
+        http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd" >
+
+    <!-- 必须重新导入, 否则将找不到action -->
+
+    <import resource="env-config.xml" />
+    <import resource="test-spring.xml" />
+    <bean class="org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping" >
+        <property name="interceptors" >
+            <list>
+                <bean class="com.laughing2b.util.interceptor.AddUniqueIdInterceptor" />
+            </list>
+        </property>
+    </bean>
+</beans>

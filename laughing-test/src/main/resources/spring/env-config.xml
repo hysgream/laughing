@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+    http://www.springframework.org/schema/context
+    http://www.springframework.org/schema/context/spring-context-2.5.xsd
+    http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd 
+    ">
+    <!-- 加载配置文件 -->
+	<!-- <context:property-placeholder location="classpath:conf/produ/*.properties"/> -->
+		<!--properties文件自动更新检查-->
+    <bean class="com.laughing2b.util.spring.conf.PropertyPlaceholderConf" >
+        <property name="locations" value="classpath:conf/${env}/*.properties"/>
+        <property name="refreshInterval" value="60000"/>
+    </bean>
+    <bean class="com.laughing2b.util.log4j.Log4jConfigListener" init-method="init">
+        <property name="location" value="classpath:log4j.properties"/>
+        <property name="refreshSeconds" value="60000"/>
+    </bean>
+</beans>
